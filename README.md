@@ -21,7 +21,7 @@ Insufficiencies:
 
    a. There are 3 crops remaining, one Primal crop (crop 1) alone in its plot, and a plot with one Primal crop (crop 2) and one Vivid crop (crop 3).
    
-   b. The Tiers of Seeds are distributed in such a way that the simulation says that farming 1,2,3 or 2,1,3 will have the best results on average.
+   b. The Tiers of Seeds are distributed in such a way that the primal crops are identical, and the Vivid crop is set up so that the simulation says that farming 1,2,3 or 2,1,3 will have the best results on average 
    
    c. According to the simulation, choosing to farm 1,2,3 or 2,1,3 will give the same average result, since the order the Primals are farmed in doesn't matter as long as you are committed to taking both of them before the Vivid.
    
