@@ -5,6 +5,7 @@ This program is designed to simulate Harvests in Path of Exile that use the Crop
 After inputting the data for the current crops in the harvest, you can input a potential order in which they would be harvested, and the simulation will estimate the result. 
 
 Current assumptions:
+<break>
 1. All Harvest Notables (other than those that affect color chances) and Crop Rotation are allocated
 2. Imbued Harvest was selected on the Map Device (additional 50% chance for no-wilt and 50% chance for additional monster from T1-T3 seed)
 3. The upgrade probability odds are 25%, 20%, and 5% for T1-T2, T2-T3, and T3-T4 respectively
