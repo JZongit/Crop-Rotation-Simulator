@@ -45,4 +45,4 @@ Insufficiencies:
                
    f. In general, it's always best to save valuable choices for when more information (more harvested crops) has been gathered, but the simulation cannot currently reflect this fact, since trying to get it to choose the optimal path becomes recursive and I don't know how to handle that.
    
-3. GUI is non-intuitive and overall pretty shit.
+3. GUI not quite as shit
