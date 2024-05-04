@@ -2,19 +2,27 @@
 
 This program is designed to simulate Harvests in Path of Exile that use the Crop Rotation Keystone. 
 
-After inputting the data for the current crops in the harvest, you can input a potential order in which they would be harvested, and the simulation will estimate the result. 
+The user can set values for the relative worth of T3 and T4 seeds compared to T2 seeds (T1 are assumed to be worthless).
+            These default to 26 and 100 based on data I've gathered, but you may want to play aroung with them, especially if sacred lifeforce is particularly expensive/cheap. 
 
-Current assumptions:
+The user can also set values for the current prices of lifeforce to determine multipliers that will be applied to crops in the simulation. 
+
+Once those values are set or the defaults are left in place, the user can input the current data of their sacred grove using the dropdown menus and text boxes. 
+Selecting only a crop color will default that crop to the starting value of 23 T1 seeds and no higher tier seeds. 
+Otherwise, fields left blank will default to 0 if any fields in that same crop are filled in. 
+Selecting no color will set that crop to be empty when crops are added. 
+
+Adding crops will create a series of labeled icons, these icons can then be arranged in the proposed order of harvesting, and pressing "simulate permutation" will generate an average seed value (with std. dev) over 10,000 iterations through that permutation. 
+
+For the purposes of this calculation, "average seed value" assumes T2 seeds have a value of 1.
+
+Higher average seed value will always correlate 1:1 with more expected lifeforce, as it is the baseline on which all juiciness multipliers operate, so the actual juiciness of the map/scarabs/etc. won't affect this relationship.  
+
 <break>
 1. All Harvest Notables (other than those that affect color chances) and Crop Rotation are allocated
 2. Imbued Harvest was selected on the Map Device (additional 50% chance for no-wilt and 50% chance for additional monster from T1-T3 seed)
 3. The upgrade probability odds are 25%, 20%, and 5% for T1-T2, T2-T3, and T3-T4 respectively
-4. T2 seeds are assigned a value of 1, T3 are assigned a value of 20, and T4 seeds are assigned a value of 100. This is based on my anecdotal observations and several baseline factors:
-            a. T3 seeds not only drop larger piles of lifeforce than T2s, but they are also guaranteed to drop some
-            b. T4 piles are even larger, but pack size and chance to spawn additional monsters doesn't work on bosses (though duplicate monster seems to for some reason since they do spawn double about 9% of the time).
-            c. T4s can also drop sacred blossoms, which have to be accounted for at least a little bit in the estimate.
-5. Vivid lifeforce is worth 2x as much as Primal or Wild, which are worth the same.
-6. When the simulator is working through a proposed permutation, any crops that are simulated to wilt in a given iteration will simply be skipped over when they would have been harvested, there is no re-evaluation of the optimal route.
+4. When the simulator is working through a proposed permutation, any crops that are simulated to wilt in a given iteration will simply be skipped over when they would have been harvested, there is no re-evaluation of the optimal route.
 
 Insufficiencies:
 1. Cannot currently estimate the true value of the opportunity to make a smart choice. Some permutations will be undervalued in the sense that they potentially offer more opportunities to divert from the planned order if the RNG heavily swings one way or the other. For example, imagine the following scenario:
