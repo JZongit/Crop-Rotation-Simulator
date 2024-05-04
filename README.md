@@ -20,7 +20,7 @@ Higher average seed value will always correlate 1:1 with more expected lifeforce
 
 Other Assumptions:
 <break>
-1. All Harvest Notables (other than those that affect color chances) and Crop Rotation are allocated
+1. Crop Rotation and all Harvest Notables (other than those that affect color chances) are allocated
             
 2. Imbued Harvest was selected on the Map Device (additional 50% chance for no-wilt and 50% chance for additional monster from T1-T3 seed)
    
