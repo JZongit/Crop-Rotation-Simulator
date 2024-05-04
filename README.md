@@ -20,8 +20,11 @@ Higher average seed value will always correlate 1:1 with more expected lifeforce
 
 <break>
 1. All Harvest Notables (other than those that affect color chances) and Crop Rotation are allocated
+            
 2. Imbued Harvest was selected on the Map Device (additional 50% chance for no-wilt and 50% chance for additional monster from T1-T3 seed)
+   
 3. The upgrade probability odds are 25%, 20%, and 5% for T1-T2, T2-T3, and T3-T4 respectively
+   
 4. When the simulator is working through a proposed permutation, any crops that are simulated to wilt in a given iteration will simply be skipped over when they would have been harvested, there is no re-evaluation of the optimal route.
 
 Insufficiencies:
