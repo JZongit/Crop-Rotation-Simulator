@@ -18,6 +18,7 @@ For the purposes of this calculation, "average seed value" assumes T2 seeds have
 
 Higher average seed value will always correlate 1:1 with more expected lifeforce, as it is the baseline on which all juiciness multipliers operate, so the actual juiciness of the map/scarabs/etc. won't affect this relationship.  
 
+Other Assumptions:
 <break>
 1. All Harvest Notables (other than those that affect color chances) and Crop Rotation are allocated
             
