@@ -17,9 +17,9 @@ Adding crops will create a series of labeled icons, these icons can then be arra
 
 When the simulator is working through a harvest order, any crops that are simulated to wilt in a given iteration will simply be skipped over when it would have been their turn to be harvested, there is no re-evaluation of the optimal route.
 
-For the purposes of this calculation, "average seed value" assumes T2 seeds have a value of 1.  
+For the purposes of this calculation, "average seed value" assumes T2 seeds have a value of 1 as a baseline for the higher tier multipliers.  
 
-Higher average seed value will always correlate 1:1 with more expected lifeforce, as it is the baseline on which all juiciness multipliers operate, so the actual juiciness of the map/scarabs/etc. won't affect this relationship.  
+Higher average seed value will always correlate 1:1 with more expected lifeforce, as it is the baseline on which all juiciness operates. So while the actual juiciness of the map/scarabs/etc. determines the absolute value of lifeforce you'll collect, it doesn't affect the relationship between seed value and lifeforce for the purposes of picking the best harvest order.  
 
 Other Assumptions:
 <break>
