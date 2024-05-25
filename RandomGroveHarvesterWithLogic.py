@@ -157,7 +157,7 @@ def simulate_process_single_iteration(crops_dict, t3_mult, t4_mult, vivid_mult, 
         if current_crop and current_crop.harvestable:
             current_crop.harvestable = 0
             if current_crop.color == 'Yellow' and current_crop.id in yellow_harvestable_crops:
-                yellow_harvestable_crops.remove(current_crop.id) #When the crop is harvested, it's marked toggled so that it can't be harvested or upgraded any more, and if it was yellow it is removed from the list of yellows remaining. 
+                yellow_harvestable_crops.remove(current_crop.id) #When the crop is harvested, it's toggled so that it can't be harvested or upgraded any more, and if it was yellow it is removed from the list of yellows remaining. 
                
             if current_crop.neighbor.harvestable == 1 and random.random() < 0.4:
                 current_crop.neighbor.harvestable = 0
