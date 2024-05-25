@@ -11,7 +11,7 @@ The Random Grove Generator is not recommended for casual use. I've posted the so
 How To Use the Program: 
 
 Running HarvestSimEXE opens a GUI. The top left section allows the user to adjust the relative worth of T3 and T4 seeds compared to T2 seeds (T1 are assumed to be worthless).
-            These default to 26 and 100 based on data I've gathered, but you may want to play aroung with them, especially if sacred lifeforce is particularly expensive/cheap. 
+            These default to 26 and 100 based on data I've gathered, but you may want to play around with them, especially if sacred lifeforce is particularly expensive/cheap. 
 
 The user can also set values for the current prices of different colors of lifeforce, which the simulator will use to determine multipliers that will be applied to crops when their seeds are harvested. 
 
