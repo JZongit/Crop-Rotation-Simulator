@@ -1,40 +1,44 @@
 # Crop-Rotation-Simulator
 
-This program is designed to simulate Harvests in Path of Exile that use the Crop Rotation Keystone. 
+These python programs are designed to simulate Harvests in Path of Exile that use the Crop Rotation Keystone. 
 
-The user can set values for the relative worth of T3 and T4 seeds compared to T2 seeds (T1 are assumed to be worthless).
+HarvestSimEXE is a user-controlled tool for investing specific harvesting choices. Users input their current scenario, and can then find the expected value for different harvesting orders they are considering. 
+
+RandomGroveGeneratorWithLogic is automated to create millions of random Sacred Groves per minute, put them through the harvesting process under various test conditions, and aggregate the results for analysis. 
+The Random Grove Generator is not recommended for casual use. I've posted the source code in case anyone has questions about how the groves were randomized and the harvesting orders were determined. 
+
+
+How To Use the Program: 
+
+Running HarvestSimEXE opens a GUI. The top left section allows the user to adjust the relative worth of T3 and T4 seeds compared to T2 seeds (T1 are assumed to be worthless).
             These default to 26 and 100 based on data I've gathered, but you may want to play aroung with them, especially if sacred lifeforce is particularly expensive/cheap. 
 
-The user can also set values for the current prices of lifeforce to determine multipliers that will be applied to crops in the simulation. 
+The user can also set values for the current prices of different colors of lifeforce, which the simulator will use to determine multipliers that will be applied to crops when their seeds are harvested. 
 
 Once those values are set or the defaults are left in place, the user can input the current data of their sacred grove using the colored checkboxes and tier count entry fields. 
 
 Selecting no color will set that crop to be empty when crops are added. 
 Selecting only a crop color and entering no numbers will default that crop to be an unupgraded crop, which is 23 T1 seeds and no higher tier seeds. 
-Otherwise, fields left blank will default to 0 if any fields in that same crop are filled in. 
+Otherwise, tier count fields left blank will default to 0 if any fields in that same crop are filled in 
 
-Adding crops will create a series of labeled icons, these icons can then be arranged in whatever order the user chooses using the provided slots, and pressing "Simulate Harvest Order" will generate an average seed value (with std. dev) over 10,000 iterations through that order of crops. It does so by simulating the various seed tier upgrade and crop-wilting probability rolls when each crop is harvested, and adding the value of harvested seeds to the total. 
+Adding crops will create a series of labeled icons, these icons can then be arranged in whatever order the user chooses using the provided slots, and pressing "Simulate Harvest Order" will generate an average seed value (with std. dev) over 10,000 iterations through that order of crops. It does so by simulating the various seed tier upgrade and crop-wilting probability rolls when each crop is harvested, and adding the value of harvested seeds to the total. This number of iterations is sufficient for these purposes, as the goal is to give the user an idea of which strategies are superior in their very specific circumstances, not make sweeping generalizations about optimal harvesting through the massive population of random groves. 
 
 When the simulator is working through a harvest order, any crops that are simulated to wilt in a given iteration will simply be skipped over when it would have been their turn to be harvested, there is no re-evaluation of the optimal route.
 
-For the purposes of this calculation, "average seed value" assumes T2 seeds have a value of 1 as a baseline for the higher tier multipliers.  
-
-Higher average seed value will always correlate 1:1 with more expected lifeforce, as it is the baseline on which all juiciness operates. So while the actual juiciness of the map/scarabs/etc. determines the absolute value of lifeforce you'll collect, it doesn't affect the relationship between seed value and lifeforce for the purposes of picking the best harvest order.  
+Higher average seed value will always correlate positively and linearly with more expected lifeforce, as it is the baseline on which all juiciness operates. So while the actual juiciness of the map/scarabs/etc. determines the absolute value of lifeforce you'll collect, it doesn't affect the relationship between seed value and lifeforce for the purposes of picking the best harvest order.  
 
 Other Assumptions:
 <break>
-1. Crop Rotation and all Harvest Notables (other than those that affect color chances) are allocated
+1. Crop Rotation and all Harvest Notables (other than those that affect color chances, because they are irrlevant to analyzing an extant grove) are allocated
             
 2. Imbued Harvest was selected on the Map Device (additional 50% chance for no-wilt and 50% chance for additional monster from T1-T3 seed)
    
-3. The upgrade probability odds are 25%, 20%, and 5% for T1-T2, T2-T3, and T3-T4 respectively (based on Prohibited Library Discord data)
+3. The upgrade probability odds are 25%, 20%, and 5% for T1->T2, T2->T3, and T3->T4 respectively (based on Prohibited Library Discord data)
    
 
 ----STOP READING HERE IF YOU JUST PLAN ON USING IT AND DGAF ABOUT THE FINER POINTS OF EV CALCULATION----
-
-
 Insufficiencies:
-1. Cannot currently estimate the true value of the opportunity to make a smart choice. Some permutations will be undervalued in the sense that they potentially offer more opportunities to divert from the planned order if the RNG heavily swings one way or the other. For example, imagine the following scenario:
+1. HarvestSimEXE cannot currently estimate the true value of the opportunity to make a smart choice. Some permutations will be undervalued in the sense that they potentially offer more opportunities to divert from the planned order if the RNG heavily swings one way or the other. For example, imagine the following scenario:
 
    a. There are 3 crops remaining, one Primal crop (crop 1) alone in its plot, and a plot with one Primal crop (crop 2) and one Vivid crop (crop 3).
    
