@@ -5,65 +5,71 @@ import time
 from copy import deepcopy
 from itertools import product
 
-#Define a Crop and all of its in-game attributes, plus some special ones used for logical sorting/data storage
+# Define a Crop and all of its in-game attributes, plus some special ones used for logical harvest ordering and/or data gathering
 class Crop:
     def __init__(self, id, harvestable, plot_id, tier_one, tier_two, tier_three, tier_four, weights=None, neighbor=None):
         self.id = id
-        self.harvestable = harvestable #Boolean tag indicating that a crop has yet to be harvested. Set to 0 after harvesting or with 40% odds after other crop in same plot is harvested
-        self.plot_id = plot_id #Indicates which plot the crop is in, not used that much because of the "neighbor" attribute but worth having as a potential label 
-        self.tier_one = tier_one #The count of Tier 1 seeds in the crop, starts at 23
-        self.tier_two = tier_two #The count of Tier 2 seeds in the crop, starts at 0
-        self.tier_three = tier_three #The count of Tier 3 seeds in the crop, starts at 0
-        self.tier_four = tier_four #The count of Tier 4 seeds in the crop, starts at 0
-        self.neighbor = neighbor #Hardcoded 1:1 matching assignment for crops in the same plot, makes functions run faster by allowing easy access to neighboring crop's stats. 
-        self.upgrade_count = 0  #Tracks how many upgrades a crop has received so far, used in reordering logic to determine if it is even worth deciding between two crops of the same color. Also for data gathering. 
-        self.initial_state = (harvestable, tier_one, tier_two, tier_three, tier_four, 0) #Saves the initial state of the crop so that it can be reset for each new grove. 
-        self.colors = ['Yellow', 'Blue', 'Purple'] #Duh
-        self.weights = weights #Used to set the weight of each color, program iterates through all 52 "unique" (assuming purple and blue are the same value) distributions of Atlas Points so they can be compared. 
-        self.color = random.choices(self.colors, weights=self.weights, k=1)[0] #The internal function that randomizes the color of the crop according to the weights, used at the start of each new grove. 
-        self.priority = None  #A dynamically assigned label used by the sorting algorithm to determine the inital planned harvesting order for each grove. 
+        self.harvestable = harvestable # Boolean tag indicating that a crop has yet to be harvested. Set to 0 after harvesting or with 40% odds after other crop in same plot is harvested
+        self.plot_id = plot_id # Indicates which plot the crop is in, not used that much because of the "neighbor" attribute but worth having as a potential label 
+        self.tier_one = tier_one # The count of Tier 1 seeds in the crop, starts at 23
+        self.tier_two = tier_two # The count of Tier 2 seeds in the crop, starts at 0
+        self.tier_three = tier_three # The count of Tier 3 seeds in the crop, starts at 0
+        self.tier_four = tier_four # The count of Tier 4 seeds in the crop, starts at 0
+        self.neighbor = neighbor # Hardcoded 1:1 matching assignment for crops in the same plot, makes functions run faster by allowing easy access to neighboring crop's stats. 
+        self.upgrade_count = 0  # Tracks how many upgrades a crop has received so far, used in reordering logic to determine if it is even worth deciding between two crops of the same color. Also for data gathering. 
+        self.initial_state = (harvestable, tier_one, tier_two, tier_three, tier_four, 0) # Saves the initial state of the crop so that it can be reset for each new grove. 
+        self.colors = ['Yellow', 'Blue', 'Purple'] # Duh
+        self.weights = weights # Used to set the weight of each color as program iterates through all 52 "unique" (assuming purple and blue are the same value) distributions of Atlas Points so they can be compared. 
+        self.color = random.choices(self.colors, weights=self.weights, k=1)[0] # The internal function that randomizes the color of the crop according to the weights, used at the start of each new grove. 
+        self.priority = None  # A dynamically assigned label used by the sorting algorithm to determine the inital planned harvesting order for each grove. 
 
+    # Function that is called to reset crops to be harvestable, have 23/0/0/0 tier counts, and randomize their color according to the weights
     def reset(self): 
         self.harvestable, self.tier_one, self.tier_two, self.tier_three, self.tier_four, self.upgrade_count = self.initial_state
-        self.color = random.choices(self.colors, weights=self.weights, k=1)[0] #Function that is called to reset crops to be harvestable, have 23/0/0/0 tier counts, and randomize their color. 
-
+        self.color = random.choices(self.colors, weights=self.weights, k=1)[0]
+        
+    # Debugging Function
     def __repr__(self):
         neighbor_id = self.neighbor.id if self.neighbor else 'None'
         return (f"Crop(ID={self.id}, Color={self.color}, Harvestable={self.harvestable}, "
                 f"PlotID={self.plot_id}, TierOne={self.tier_one}, TierTwo={self.tier_two}, "
                 f"TierThree={self.tier_three}, TierFour={self.tier_four}, NeighborID={neighbor_id}, "
-                f"UpgradeCount={self.upgrade_count}, Priority={self.priority})") #Debugging Function
+                f"UpgradeCount={self.upgrade_count}, Priority={self.priority})") 
 
+# Function that categorizes crops for logical harvest order 
 def prioritization_process(crops_dict):
     priority_map = {
-        ('Blue', 'Blue'): 'DB',
-        ('Blue', 'Purple'): 'PBH',
-        ('Blue', 'Yellow'): 'BYH',
-        ('Yellow', 'Yellow'): 'DY',
-        ('Yellow', 'Purple'): 'PYH',
-        ('Yellow', 'Blue'): 'BYH',
-        ('Purple', 'Purple'): 'DP',
-        ('Purple', 'Yellow'): 'PYH',
-        ('Purple', 'Blue'): 'PBH'
-    } #Map that categorizes crops, based on their neighbors color, into their strategically relevant groups: Double Blues, Purple/Blue Hybrids, Blue/Yellow Hybrids, Double Yellows, Double Purples, and Purple/Yellow Hybrids. 
-    
+        ('Blue', 'Blue'): 'DB', # Double Blues
+        ('Blue', 'Purple'): 'PBH', # Purple/Blue Hybrids
+        ('Blue', 'Yellow'): 'BYH', # Blue/Yellow Hybrids
+        ('Yellow', 'Yellow'): 'DY', # Double Yellows
+        ('Yellow', 'Purple'): 'PYH', # Purple/Yellow Hybrids
+        ('Yellow', 'Blue'): 'BYH', # Blue/Yellow Hybrids
+        ('Purple', 'Purple'): 'DP', # Double Purples
+        ('Purple', 'Yellow'): 'PYH', # Purple/Yellow Hybrids
+        ('Purple', 'Blue'): 'PBH' # Purple/Blue Hybrids
+    } # Maps priority labels based each crop's color and its neighbors color for easy sorting into strategically relevant groups
+
+    # Actual loop that assigns priority as quickly as possible by labeling each odd numbered crop and its neighbor at the same time. 
     for crop in crops_dict.values():
         if crop.id % 2 == 1:
             pair = (crop.color, crop.neighbor.color)
             priority = priority_map.get(pair)
             if priority:
                 crop.priority = priority
-                crop.neighbor.priority = priority #Function that assigns priority as quickly as possible by labeling each odd numbered crop and it's neighbor at the same time. 
+                crop.neighbor.priority = priority 
 
+# Function that randomizes the number of plots in the harvest. Set to be 25% 3-plot, 50% 4-plot, and 25% 5-plot. Based on 50% chance of 3 or 4 initially, and 50% chance for an additional plot
 def choose_crops_by_weight(): 
     options = [6, 8, 10]
     weights = [1, 2, 1]
     chosen_count = random.choices(options, weights=weights, k=1)[0]
-    return chosen_count #Function that randomizes the number of plots in the harvest. Set to be 25% 3-plot, 50% 4-plot, and 25% 5-plot. Based on 50% chance of 3 or 4 initially, and 50% chance for an additional plot. 
+    return chosen_count 
 
+# Function that takes random grove conditions and generates strategic inital harvesting order
 def generate_color_based_permutation(crops_dict):
     num_crops_to_include = choose_crops_by_weight()
-    included_crops = [crop for crop in crops_dict.values() if crop.id <= num_crops_to_include] #Shaves list of 10 hard coded crops down to whatever is relevant for the current grove based on how many plots it has. 
+    included_crops = [crop for crop in crops_dict.values() if crop.id <= num_crops_to_include] # Shaves list of 10 hard coded crops down to whatever is relevant for the current grove based on how many plots it has. 
 
     blue_crops = []
     purple_crops = []
@@ -84,9 +90,9 @@ def generate_color_based_permutation(crops_dict):
         elif crop.color == 'Purple':
             purple_crops.append(crop.id)
         elif crop.color == 'Yellow':
-            yellow_crops.append(crop.id) #Populates color groups for counting and data gathering 
+            yellow_crops.append(crop.id) # Populates color groups for counting and data gathering 
 
-    primary_color, secondary_color = ('Blue', 'Purple') if len(blue_crops) >= len(purple_crops) else ('Purple', 'Blue')
+    primary_color, secondary_color = ('Blue', 'Purple') if len(blue_crops) > len(purple_crops) else ('Purple', 'Blue')
     #Determines if Blue or Purple is the more common non-yellow color, because simulations have shown that harvesting the more common color first has better yields. Defaults to Purple in a tie. 
 
     for crop in included_crops:
@@ -108,13 +114,13 @@ def generate_color_based_permutation(crops_dict):
             if crop.priority in ['PYH', 'BYH']:
                 yellow_hybrids.append(crop.id)
             elif crop.priority == 'DY':
-                yellow_doubles.append(crop.id) #Populates the priority groupings. There are 8 strategically relevant groupings based on what can happen when a crop is harvested.
+                yellow_doubles.append(crop.id) # Populates the priority groupings. There are 8 strategically relevant groupings based on what can happen when a crop is harvested.
                 '''
                 Categories are divided based on more or less common non-yellow color, having a neighbor of the same color vs. having a non-yellow neighbor vs having a yellow neighbor, and/or being yellow. 
                 Harvesting any one of the crops in one of these groups will always be functionally equivalent to harvesting another member of the group. 
                 The same colors will be upgraded, and the same color crop is at risk of being destroyed, and the group as a whole has the same potential value to upgrade or be upgraded. 
                 Crops of the most common non-yellow color in a plot with a crop of the same color are called primary doubles, crops of the most common non-yellow color sharing a plot with the other non-yellow color are called primary hybrids. 
-                Crops of the most common non-yellow color in a plot with a yellow crop are called primary dangers, because they represent a possible decision point where it may be worth it to harvest the yellow crop first if it is juicy enough.
+                Crops of the most common non-yellow color in a plot with a yellow crop are called primary dangers, because they represent a possible decision point where it may be worth it to harvest the yellow crop first or make another diversion if it is juicy enough.
                 Ditto for the crops of the least common non-yellow color. 
                 For yellow crops, they are separated into those that might be risked at some point because they are in a hybrid plot, and doubles that represent a very easy decision where you just take the best one. 
                 '''
@@ -127,7 +133,7 @@ def generate_color_based_permutation(crops_dict):
     ) #put the categorized crops in the strategically optimal order. 
     '''
     I tested all permutations of this, combined with everything from the most advanced re-ordering logic I could think of to yolo-sending it every time with no regard for EV,
-    and with every weight setting, in every remotely feasible economic climate (vivid being worth anywhere from 1.5 to 3.0 times the others)...  
+    I tested those things with every weight setting, in every remotely feasible economic climate (vivid being worth anywhere from 1.5 to 3.0 times the others)...  
     And through all of that, this initial order always outperformed any other option. Not always by a huge margin, but it's just the right way to do it as far as I can tell. 
     It's so good, that even if you intentionally make the wrong (negative EV) reordering decisions whenever you are deciding to risk a yellow crop or not, it's only about 10% worse than making no-decisions and always risking it, and 20% worse than making the right decisions.
     '''
@@ -145,7 +151,7 @@ def simulate_process_single_iteration(crops_dict, t3_mult, t4_mult, vivid_mult, 
         crop_id for crop_id in yellow_crops if crops_dict[crop_id].harvestable == 1
     ] #Makes a list of harvestable yellow crops, because this can be used as a trigger for the reordering logic. 
     #There are extremely few and very unlikely scenarios where not risking a yellow plot is the right decision if there are at least 3 total remaining. 
-    #The EV calculations are very computationally heavy at that point, and the difference between the right and wrong decision is almost always marginal at best, so it was decided to just send it when there are at least 3 yellows. 
+    #The EV calculations are very computationally heavy at that point, and the difference between the right and wrong decision is almost always marginal at best, so I decided to just send it when there are at least 3 yellows. 
 
     seed_count = 0 #resets the value extracted from the grove to 0
     index = 0 #sets function to begining of initial harvest order. 
