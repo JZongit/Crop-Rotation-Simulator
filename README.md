@@ -29,7 +29,7 @@ Higher average seed value will always correlate positively and linearly with mor
 
 Other Assumptions:
 <break>
-1. Crop Rotation and all Harvest Notables (other than those that affect color chances, because they are irrlevant to analyzing an extant grove) are allocated
+1. Crop Rotation and all Harvest Notables (other than those that affect color spawn chances, because they are irrlevant to analyzing a grove that already exists) are allocated
             
 2. Imbued Harvest was selected on the Map Device (additional 50% chance for no-wilt and 50% chance for additional monster from T1-T3 seed)
    
