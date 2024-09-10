@@ -38,6 +38,7 @@ Other Assumptions:
 
 ----STOP READING HERE IF YOU JUST PLAN ON USING IT AND DGAF ABOUT THE FINER POINTS OF EV CALCULATION----
 <break>
+<break>
 Insufficiencies:
 1. HarvestSimEXE cannot currently estimate the true value of the opportunity to make a smart choice. Some permutations will be undervalued in the sense that they potentially offer more opportunities to divert from the planned order if the RNG heavily swings one way or the other. For example, imagine the following scenario:
 
