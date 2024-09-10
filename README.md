@@ -51,9 +51,9 @@ Insufficiencies:
    
    d. However, in the real world, farming 1 first is the obvious choice because it guarantees you an opportunity to make an informed decision to potentially divert from the plan. If the first Primal crop harvested rolls very poorly compared to expectation on its upgrading of the Vivid crop, then it may be advtangeous to actually take the Vivid crop first so that it can be used to gamble on upgrading the remaining Primal crop instead. And if the first upgrade rolls very well compared to expectation, it could also be advantageous to take the Vivid crop first because it's now too juicy to risk compared to the value of upgrading it again. 
    
-   e. By contrast, taking 2 first only gives you a meaningful choice if the Vivid crop doesn't wilt, and also makes the choice less meaningful, since instead of evaluating the potential risk/reward, you're only looking at which remaining crop has more potential to upgrade the other one and so the difference in the outcomes will probably be small.
-
-   f. A choice is more valuable if the difference between the right choice and the wrong choice is greater. 
+   e. By contrast, taking 2 first only gives you a meaningful choice if the Vivid crop doesn't wilt, and also makes the choice less meaningful, since nothing is potentially being risked. 
                
-   g. In general, it's always best to save valuable choices for when more information (more harvested crops) has been gathered, but the simulation cannot currently reflect this fact, since trying to get it to choose the optimal path becomes recursive and I don't know how to handle that.
-   
+   f. In general, it's always best to save valuable choices for when more information (more harvested crops) has been gathered but the simulation cannot currently reflect this fact, since trying to get it to choose the optimal path with re-ordering as an option becomes recursive/fractalizes to where you'd have to look at not just every possibile order, but also every possibile order's potential to divert into every other possibile order in the event of high variance RNG, and I don't know how to handle that without the simulation taking far too long to run.
+
+   g. Actually doing these simulations is necessary for statistical/strategic investigation purposes, because it's not reasonable to simply look at the probabilities to determine EV when reordering decisions are allowed, since it's the edge cases that we'd actually care about. Just using the expected upgrades for each round of harvesting would be like developing a strategy for poker where you assume you'll be dealt average hole cards every hand. Unless you're going all-in blind or committing to a specific harvesting order, you have the play the cards/plants you're dealt. 
+
