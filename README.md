@@ -5,10 +5,10 @@ These python programs are designed to simulate Harvests in Path of Exile that us
 HarvestSimEXE is a user-controlled tool for investigating specific harvesting choices. Users input their current scenario, and can then find the expected value for different harvesting orders they are considering. 
 
 RandomGroveGeneratorWithLogic is automated to create millions of random Sacred Groves per minute, put them through the harvesting process under various test conditions, and aggregate the results for analysis. 
-The Random Grove Generator is not recommended for casual use. I've posted the source code in case anyone has questions about how the groves were randomized and the harvesting orders were determined. 
+The Random Grove Generator is not recommended for casual use. I've posted the source code in case anyone has questions about how the groves were randomized and the harvesting orders were determined, but running it will likely cook your CPU. 
 
 
-How To Use the Program: 
+How To Use HarvestSimEXE: 
 
 Running HarvestSimEXE opens a GUI. The top left section allows the user to adjust the relative worth of T3 and T4 seeds compared to T2 seeds (T1 are assumed to be worthless).
             These default to 26 and 100 based on data I've gathered, but you may want to play around with them, especially if sacred lifeforce is particularly expensive/cheap or if you're running maps with either a lot of pack size or relatively little pack sie. 
