@@ -2,7 +2,7 @@
 
 These python programs are designed to simulate Harvests in Path of Exile that use the Crop Rotation Keystone. 
 
-HarvestSimEXE is a user-controlled tool for investing specific harvesting choices. Users input their current scenario, and can then find the expected value for different harvesting orders they are considering. 
+HarvestSimEXE is a user-controlled tool for investigating specific harvesting choices. Users input their current scenario, and can then find the expected value for different harvesting orders they are considering. 
 
 RandomGroveGeneratorWithLogic is automated to create millions of random Sacred Groves per minute, put them through the harvesting process under various test conditions, and aggregate the results for analysis. 
 The Random Grove Generator is not recommended for casual use. I've posted the source code in case anyone has questions about how the groves were randomized and the harvesting orders were determined. 
